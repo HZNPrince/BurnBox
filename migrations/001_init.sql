@@ -20,7 +20,7 @@ CREATE TABLE secrets (
 
 -- Access log: records every attempt to view a secret
 CREATE TABLE access_log (
-    id              UUID PRIMARY KEY DEFAULT get_random_uuid(),
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     secret_id       UUID NOT NULL REFERENCES secrets(id) ON DELETE CASCADE,
     accessed_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
     viewer_ip       TEXT,
@@ -29,4 +29,4 @@ CREATE TABLE access_log (
 
 -- Index for the background worker: quickly find expired secrets
 CREATE INDEX idx_secrets_expires_at ON secrets(expires_at)
-    WHERE expires_at IS NOT NULL AND viewed_at IS NULL;
+    WHERE expires_at IS NOT NULL;
