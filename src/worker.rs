@@ -1,4 +1,4 @@
-use crate::{errors::AppError, storage::BlobStorage};
+use crate::storage::BlobStorage;
 use sqlx::PgPool;
 use std::sync::Arc;
 

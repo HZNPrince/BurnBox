@@ -2,7 +2,7 @@ use aes_gcm::{
     aead::{Aead, KeyInit, OsRng},
     Aes256Gcm, Nonce,
 };
-use anyhow::{anyhow, Context, Result};
+use anyhow::{anyhow, Result};
 use argon2::{password_hash::SaltString, Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
 
 // Result of encrypting a secret with envelope encryption
@@ -57,7 +57,7 @@ pub fn decrypt_secret(
 
     let dek_array: [u8; 32] = raw_dek
         .try_into()
-        .map_err(|e| anyhow!("Decrypted DEK is not 32 bytes"))?;
+        .map_err(|_| anyhow!("Decrypted DEK is not 32 bytes"))?;
     let content_cipher = Aes256Gcm::new((&dek_array).into());
     let content_nonce = Nonce::from_slice(&content_nonce);
     let plaintext = content_cipher

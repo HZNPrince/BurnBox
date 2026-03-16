@@ -225,7 +225,10 @@ pub async fn get_secret(
     } else {
         if let Some(blob_path) = secret.blob_path {
             app.storage.delete(&blob_path).await.map_err(|e| {
-                AppError::Storage(format!("Error deleting file from blob : id {}", id))
+                AppError::Storage(format!(
+                    "Error deleting file from blob id :{}, error: {}",
+                    id, e
+                ))
             })?;
         }
 
